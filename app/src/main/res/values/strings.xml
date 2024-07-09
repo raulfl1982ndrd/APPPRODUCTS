@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Products</string>
+
+    <string name="menu_search">Search</string>
+    <string name="empty_list_title">No products to show</string>
+    <string name="empty_list_advice">Press the magnifying glass to search for a product</string>
+    <string name="stock">Stock</string>
+    <string name="description">Description</string>
+</resources>
