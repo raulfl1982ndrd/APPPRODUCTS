@@ -31,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         } else {
             getAllProducts()
         }
+        binding.recargarDatos.setOnClickListener(){
+            getAllProducts()
+        }
+        binding.noRecargarDatos.setOnClickListener(){
+            navigateToProductList()
+        }
     }
 
     private fun getAllProducts() {
