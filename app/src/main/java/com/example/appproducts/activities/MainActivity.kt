@@ -69,7 +69,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateToProductList() {
-        val intent = Intent(this, ProductsActivity::class.java)
+        val intent = Intent(this, CategoriesActivity::class.java)
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+        //finish()
     }
 }

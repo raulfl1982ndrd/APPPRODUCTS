@@ -20,16 +20,21 @@ class ProductsActivity : AppCompatActivity() {
 
     private lateinit var adapter: ProductsAdapter
     private var productsList:List<Product> = listOf()
-
+    private var category:String? = ""
     private lateinit var productDAO: ProductDAO
+    companion object {
+        const val EXTRA_CATEGORY = "CATEGORY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityProductsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        category = intent.getStringExtra(ProductsActivity.EXTRA_CATEGORY)
         productDAO = ProductDAO(this)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.title = category?.uppercase()//name
 
         initView()
     }
@@ -41,7 +46,11 @@ class ProductsActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        productsList = productDAO.findAll()
+        if (category.equals("Todas"))
+            productsList = productDAO.findAll()
+        else
+            productsList = productDAO.findByCategory(category)
+
         if (productsList.isEmpty()) {
             binding.recyclerView.visibility = View.GONE
             binding.emptyPlaceholder.visibility = View.VISIBLE

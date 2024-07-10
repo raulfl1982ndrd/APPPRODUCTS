@@ -3,7 +3,10 @@
 
     <string name="menu_search">Search</string>
     <string name="empty_list_title">No products to show</string>
+    <string name="allCategories">All Categories</string>
+    <string name="empty_categorie_list_title">No categories to show</string>
     <string name="empty_list_advice">Press the magnifying glass to search for a product</string>
+    <string name="empty_categoriy_list_advice">Press the magnifying glass to search for a category</string>
     <string name="stock">Stock</string>
     <string name="description">Description</string>
 </resources>

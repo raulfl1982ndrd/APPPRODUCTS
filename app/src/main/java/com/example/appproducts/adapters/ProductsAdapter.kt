@@ -12,16 +12,16 @@ import com.squareup.picasso.Picasso
 
 class ProductsAdapter (var items:List<Product> = listOf(),
                       private val onClickListener: (position:Int) -> Unit
-) : RecyclerView.Adapter<RecipeViewHolder>() {
+) : RecyclerView.Adapter<ProductViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecipeViewHolder(binding)
+        return ProductViewHolder(binding)
     }
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.render(items[position])
         holder.itemView.setOnClickListener { onClickListener(position) }
     }
@@ -32,7 +32,7 @@ class ProductsAdapter (var items:List<Product> = listOf(),
     }
 }
 
-class RecipeViewHolder(val binding:ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
+class ProductViewHolder(val binding:ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun render(product: Product ) {
         binding.tittleTextView.text = product.title

@@ -6,7 +6,7 @@ import android.content.Context
 import android.util.Log
 import com.example.appproducts.data.entities.Product
 import com.example.appproducts.utils.DatabaseManager
-
+import java.sql.Types.DISTINCT
 
 
 class ProductDAO (private val context: Context) {
@@ -128,6 +128,82 @@ class ProductDAO (private val context: Context) {
             Product.TABLE_NAME,                 // The table to query
             Product.COLUMN_NAMES,     // The array of columns to return (pass null to get all)
             null,                // The columns for the WHERE clause
+            null,          // The values for the WHERE clause
+            null,                   // don't group the rows
+            null,                   // don't filter by row groups
+            null               // The sort order
+        )
+
+        val list: MutableList<Product> = mutableListOf()
+
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndex(DatabaseManager.COLUMN_NAME_ID))
+            val productTitle = cursor.getString(cursor.getColumnIndex(Product.COLUMN_TITLE))
+            val productDescription = cursor.getString(cursor.getColumnIndex(Product.COLUMN_DESCRIPTION))
+            val productCategory = cursor.getString(cursor.getColumnIndex(Product.COLUMN_CATEGORY))
+            val productPrice = cursor.getFloat(cursor.getColumnIndex(Product.COLUMN_PRICE))
+            val productDiscountPercentage = cursor.getFloat(cursor.getColumnIndex(Product.COLUMN_DISCOUNTPERCENTAGE))
+            val productRating = cursor.getFloat(cursor.getColumnIndex(Product.COLUMN_RATING))
+            val productStock = cursor.getString(cursor.getColumnIndex(Product.COLUMN_STOCK))
+            val productImage = cursor.getString(cursor.getColumnIndex(Product.COLUMN_IMAGE))
+            //Log.i("DATABASE", "$id -> Recipe: $recipeName, Done: $done")
+
+            val product = Product(id,
+                productTitle,
+                productDescription,
+                productCategory,
+                productPrice,
+                productDiscountPercentage,
+                productRating ,
+                productStock,
+                listOf(productImage))
+            list.add(product)
+        }
+
+        cursor.close()
+        db.close()
+
+        return list
+    }
+
+    @SuppressLint("Range")
+    fun findAllCategories(): List<String> {
+        val db = databaseManager.writableDatabase
+
+        val cursor = db.query(
+            Product.TABLE_NAME,                 // The table to query
+            Product.COLUMN_NAMES,     // The array of columns to return (pass null to get all)
+            null,                // The columns for the WHERE clause
+            null,          // The values for the WHERE clause
+            null,                   // don't group the rows
+            null,                   // don't filter by row groups
+            null               // The sort order
+        )
+
+        val list: MutableList<String> = mutableListOf()
+
+        while (cursor.moveToNext()) {
+            val productCategory = cursor.getString(cursor.getColumnIndex(Product.COLUMN_CATEGORY))
+            //Log.i("DATABASE", "$id -> Recipe: $title, Done: $category")
+
+            val categorie =
+                productCategory
+            list.add(categorie)
+        }
+
+        cursor.close()
+        db.close()
+
+        return list.distinct()
+    }
+    @SuppressLint("Range")
+    fun findByCategory(string:String?): List<Product> {
+        val db = databaseManager.writableDatabase
+
+        val cursor = db.query(
+            Product.TABLE_NAME,                 // The table to query
+            Product.COLUMN_NAMES,     // The array of columns to return (pass null to get all)
+            "${Product.COLUMN_CATEGORY} LIKE '%$string%'",                // The columns for the WHERE clause
             null,          // The values for the WHERE clause
             null,                   // don't group the rows
             null,                   // don't filter by row groups

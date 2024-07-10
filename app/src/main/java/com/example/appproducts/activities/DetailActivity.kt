@@ -39,14 +39,14 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         productId = intent.getIntExtra(EXTRA_ID, -1)
-/*
-        setSupportActionBar(binding.toolbar)
+
+        //setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.title = ""//name
-*/
         productDAO = ProductDAO(this)
 
         product = productDAO.find(productId)
+        supportActionBar?.title = product.title//name
         loadData()
         //findRecipeById(recipeId)
     }
