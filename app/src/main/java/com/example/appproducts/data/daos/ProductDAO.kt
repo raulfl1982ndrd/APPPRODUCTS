@@ -242,4 +242,33 @@ class ProductDAO (private val context: Context) {
 
         return list
     }
+    fun findCategoryImage(string:String?): String {
+        val db = databaseManager.writableDatabase
+
+        val cursor = db.rawQuery("Select image from Products where category = ? limit 1", arrayOf(string))
+
+        /*val cursor = db.query(
+            Product.TABLE_NAME,                 // The table to query
+            arrayOf(Product.COLUMN_IMAGE),     // The array of columns to return (pass null to get all)
+            "category = ?",                // The columns for the WHERE clause
+            arrayOf(string),          // The values for the WHERE clause
+            null,
+            null,                   // don't group the rows
+            null,                   // don't filter by row groups
+            "1"               // The sort order
+        )*/
+
+        var image: String = ""
+
+        if (cursor.moveToNext()) {
+            val productImage = cursor.getString(cursor.getColumnIndex(Product.COLUMN_IMAGE))
+            //Log.i("DATABASE", "Category: $productCategory")
+            image = productImage
+        }
+
+        cursor.close()
+        db.close()
+
+        return image//.distinct()
+    }
 }
