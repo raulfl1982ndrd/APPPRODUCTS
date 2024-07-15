@@ -70,6 +70,15 @@ class ProductsActivity : AppCompatActivity() {
 
         return true
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun initSearchView(searchItem: MenuItem?) {
         if (searchItem != null) {
@@ -103,36 +112,4 @@ class ProductsActivity : AppCompatActivity() {
         //Toast.makeText(this, getString(products.name), Toast.LENGTH_LONG).show()
     }
 
-    /*private fun getAllRecipes() {
-        binding.progress.visibility = View.VISIBLE
-
-        val service: RecipeServiceApi = RetrofitProvider.getRecipeServiceApi()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            // Llamada en segundo plano
-            val response = service.findAll()
-
-            runOnUiThread {
-                // Modificar UI
-                binding.progress.visibility = View.GONE
-
-                if (response.body() != null) {
-                    Log.i("HTTP", "respuesta correcta :)")
-                    recipesList = response.body()?.results.orEmpty()
-                    adapter.updateItems(recipesList)
-
-                    if (recipesList.isNotEmpty()) {
-                        binding.recyclerView.visibility = View.VISIBLE
-                        binding.emptyPlaceholder.visibility = View.GONE
-                    } else {
-                        binding.recyclerView.visibility = View.GONE
-                        binding.emptyPlaceholder.visibility = View.VISIBLE
-                    }
-                } else {
-                    Log.i("HTTP", "respuesta erronea :(")
-                    Toast.makeText(this@RecipesActivity, "Hubo un error inesperado, vuelva a intentarlo más tarde", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }*/
 }

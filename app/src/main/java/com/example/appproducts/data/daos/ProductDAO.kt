@@ -6,7 +6,6 @@ import android.content.Context
 import android.util.Log
 import com.example.appproducts.data.entities.Product
 import com.example.appproducts.utils.DatabaseManager
-import java.sql.Types.DISTINCT
 
 
 class ProductDAO (private val context: Context) {
@@ -101,7 +100,7 @@ class ProductDAO (private val context: Context) {
             val productRating = cursor.getFloat(cursor.getColumnIndex(Product.COLUMN_RATING))
             val productStock = cursor.getString(cursor.getColumnIndex(Product.COLUMN_STOCK))
             val productImage = cursor.getString(cursor.getColumnIndex(Product.COLUMN_IMAGE))
-            //Log.i("DATABASE", "$id -> Product: $productDescription, Image: productImage")
+            //Log.i("DATABASE", "$id -> Product: $productTitle, Image: $productImage")
 
             product = Product(id,
                     productTitle,
@@ -146,7 +145,7 @@ class ProductDAO (private val context: Context) {
             val productRating = cursor.getFloat(cursor.getColumnIndex(Product.COLUMN_RATING))
             val productStock = cursor.getString(cursor.getColumnIndex(Product.COLUMN_STOCK))
             val productImage = cursor.getString(cursor.getColumnIndex(Product.COLUMN_IMAGE))
-            //Log.i("DATABASE", "$id -> Recipe: $recipeName, Done: $done")
+            //Log.i("DATABASE", "$id -> Product: $productTitle, Image: $productImage")
 
             val product = Product(id,
                 productTitle,
@@ -170,11 +169,15 @@ class ProductDAO (private val context: Context) {
     fun findAllCategories(): List<String> {
         val db = databaseManager.writableDatabase
 
+        val cursor1 = db.rawQuery("Select distinct category from Products",null)
+
         val cursor = db.query(
+            true,
             Product.TABLE_NAME,                 // The table to query
-            Product.COLUMN_NAMES,     // The array of columns to return (pass null to get all)
+            arrayOf(Product.COLUMN_CATEGORY),     // The array of columns to return (pass null to get all)
             null,                // The columns for the WHERE clause
             null,          // The values for the WHERE clause
+            null,
             null,                   // don't group the rows
             null,                   // don't filter by row groups
             null               // The sort order
@@ -182,19 +185,17 @@ class ProductDAO (private val context: Context) {
 
         val list: MutableList<String> = mutableListOf()
 
-        while (cursor.moveToNext()) {
-            val productCategory = cursor.getString(cursor.getColumnIndex(Product.COLUMN_CATEGORY))
-            //Log.i("DATABASE", "$id -> Recipe: $title, Done: $category")
+        while (cursor1.moveToNext()) {
+            val productCategory = cursor1.getString(cursor1.getColumnIndex(Product.COLUMN_CATEGORY))
+            //Log.i("DATABASE", "Category: $productCategory")
 
-            val categorie =
-                productCategory
-            list.add(categorie)
+            list.add(productCategory)
         }
 
-        cursor.close()
+        cursor1.close()
         db.close()
 
-        return list.distinct()
+        return list//.distinct()
     }
     @SuppressLint("Range")
     fun findByCategory(string:String?): List<Product> {
@@ -222,7 +223,7 @@ class ProductDAO (private val context: Context) {
             val productRating = cursor.getFloat(cursor.getColumnIndex(Product.COLUMN_RATING))
             val productStock = cursor.getString(cursor.getColumnIndex(Product.COLUMN_STOCK))
             val productImage = cursor.getString(cursor.getColumnIndex(Product.COLUMN_IMAGE))
-            //Log.i("DATABASE", "$id -> Recipe: $recipeName, Done: $done")
+            //Log.i("DATABASE", "Category: $string, ProductTitle: $productTitle")
 
             val product = Product(id,
                 productTitle,

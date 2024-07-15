@@ -67,6 +67,7 @@ class DetailActivity : AppCompatActivity() {
         binding.descriptionTextView.text = product.description
         binding.categoryTextView.text = product.category
         binding.ratingTextView.text = product.rating.toString()
+        binding.priceTextView.text = product.price.toString()
         binding.discountPercentageTextView.text = product.discountPercentage.toString()
         binding.stockTextView.text = product.stock
 

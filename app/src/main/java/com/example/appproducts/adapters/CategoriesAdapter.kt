@@ -35,7 +35,7 @@ class CategoriesAdapter (var items:List<String> = listOf(),
 class CategoryViewHolder(val binding:ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun render(string: String ) {
-        binding.categoryTextView.text = string
+        binding.categoryTextView.text = string.uppercase()
     }
 
 }
