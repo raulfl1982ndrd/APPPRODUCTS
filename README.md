@@ -32,6 +32,7 @@ elemento con una función lambda para ir a la actividad de Detalle con el etra d
 
 
 falta por hacer :
+
 • Debe mostrar al menos un diálogo en respuesta a una acción
 del usuario.
 
